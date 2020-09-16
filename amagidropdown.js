@@ -70,11 +70,11 @@ function amagiDropdown(elementId, dt, selectedValue) {
         clearTimeout(amagiDropdownTimers['tmr_' + searchId]);
         amagiDropdownTimers['tmr_' + searchId] = setTimeout(
             function () {
-                var searchText = ev.srcElement.value;
+                var searchText = ev.srcElement.value.toLowerCase();
                 var list  = document.getElementById(`list_${elementId}`);
                 for (i = 0; i < list.childElementCount; i++) {
                     list.children[i].style.display = (searchText==null || searchText.length<1) ? ""
-                    :((list.children[i].innerHTML.indexOf(searchText)<0)?"none":"");
+                    :((list.children[i].innerHTML.toLowerCase().indexOf(searchText)<0)?"none":"");
                 }
             }, 1000);
     })
