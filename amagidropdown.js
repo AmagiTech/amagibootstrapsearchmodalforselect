@@ -13,7 +13,8 @@ function setValue(el) {
         targetElement.value = el.dataset.val;
         var displayElement = document.getElementById(`display_${searchId}`);
         displayElement.value = el.dataset.text;
-        targetElement.onchange();
+        if (targetElement.onchange != null)
+            targetElement.onchange();
         $(`#modal_${searchId}`).modal("hide");
     }
 
