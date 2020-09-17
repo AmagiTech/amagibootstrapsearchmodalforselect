@@ -10,6 +10,7 @@ function setValue(el, elementId) {
     } else {
         var targetElement = document.getElementById(el.parentElement.dataset.element);
         targetElement.value = el.dataset.val;
+        targetElement.onchange();
         $(`#${el.parentElement.dataset.modalid}`).modal("hide");
     }
 
@@ -34,7 +35,7 @@ function amagiDropdown(settings) {
     if (bodyMessage == null || bodyMessage.length < 1) {
         bodyMessage = 'Please first search and later double click the option you selected.';
     }
-    
+
 
     var el = document.getElementById(elementId);
     var searchId = elementId + '_' + Math.floor(Math.random() * 1000);
@@ -55,12 +56,11 @@ function amagiDropdown(settings) {
             modalButton += `<button type="button" data-val="${o.value}" onclick="setValue(this)" class="list-group-item list-group-item-action${o.selected == true ? ' active' : ''}">${o.text}</button>`
         }
     }
-
+    el.className = 'custom-select';
+    el.innerHTML = options;
     el.outerHTML = `
     <div class="input-group">
-        <select class="custom-select" id="${elementId}">
-            ${options}
-        </select>
+        ${el.outerHTML}
         <div class="input-group-append" >
             <button id="btn_${searchId}" class="btn btn-outline-secondary" type="button" data-toggle="modal" data-target="#modal_${searchId}">${searchButtonInnerHtml}</button>
         </div>
@@ -99,7 +99,7 @@ function amagiDropdown(settings) {
         clearTimeout(amagiDropdownTimers['tmr_' + searchId]);
         amagiDropdownTimers['tmr_' + searchId] = setTimeout(
             function () {
-                var searchText = ev.srcElement.value.toLowerCase();
+                var searchText = ev.target.value.toLowerCase();
                 var list = document.getElementById(`list_${elementId}`);
                 for (i = 0; i < list.childElementCount; i++) {
                     list.children[i].style.display = (searchText == null || searchText.length < 1) ? ""
